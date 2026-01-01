@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HG's Portfolio | Developer & Creator</title>
+    <link rel="icon" type="image/png" href="images/HGlogo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading Bar */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-color);
+            z-index: 10001;
+            transition: width 0.3s ease;
+        }
+
+        :root {
+            --primary-color: #58a6ff;
+            --secondary-color: #79c0ff;
+            --accent-green: #3fb950;
+            --accent-purple: #bc8cff;
+            --accent-orange: #d29922;
+            --accent-red: #f85149;
+            --accent-pink: #f778ba;
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #21262d;
+            --text-color: #c9d1d9;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --border-color: #30363d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            cursor: default;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            display: none;
+        }
+
+        .custom-cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-trail {
+            display: none;
+        }
+
+        @keyframes fade-trail {
+            to {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Interstellar Background */
+        .stars-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite, float-star 20s linear infinite;
+        }
+
+        .star.green {
+            background: #3fb950;
+            box-shadow: 0 0 6px #3fb950;
+        }
+
+        .star.white {
+            background: white;
+            box-shadow: 0 0 6px white;
+        }
+
+        .star.cyan {
+            background: var(--primary-color);
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .star.magenta {
+            background: var(--accent-purple);
+            box-shadow: 0 0 8px var(--accent-purple);
+        }
+
+        .star.yellow {
+            background: var(--accent-orange);
+            box-shadow: 0 0 8px var(--accent-orange);
+        }
+
+        .star.orange {
+            background: var(--accent-red);
+            box-shadow: 0 0 8px var(--accent-red);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes float-star {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(10px, -5px);
+            }
+            50% {
+                transform: translate(-5px, 10px);
+            }
+            75% {
+                transform: translate(5px, 5px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        .galaxy {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(88, 166, 255, 0.4), rgba(88, 166, 255, 0.2), transparent);
+            animation: galaxy-rotate 60s linear infinite, float-galaxy 30s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+        }
+
+        @keyframes galaxy-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float-galaxy {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(20px, -15px) rotate(120deg);
+            }
+            66% {
+                transform: translate(-15px, 20px) rotate(240deg);
+            }
+        }
+
+        .stars-layer1 {
+            z-index: 3;
+        }
+
+        .stars-layer2 {
+            z-index: 2;
+        }
+
+        .stars-layer3 {
+            z-index: 1;
+        }
+
+        @keyframes drift {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100% 100%;
+            }
+        }
+
+        .nebula {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(0, 255, 65, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(0, 255, 65, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 80%, rgba(51, 204, 51, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 20%, rgba(0, 255, 65, 0.07) 0%, transparent 50%);
+            animation: nebula-pulse 20s ease-in-out infinite;
+        }
+
+        @keyframes nebula-pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-color);
+            overflow: visible;
+        }
+
+        @keyframes scan-line {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .profile-picture {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            margin: 0 auto 24px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: float-subtle 8s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
+            cursor: pointer;
+        }
+
+        .profile-picture img {
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 50%;
+            filter: drop-shadow(0 0 10px rgba(88, 166, 255, 0.6));
+            transition: filter 0.3s ease;
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.6);
+        }
+
+        .profile-picture:hover img {
+            filter: drop-shadow(0 0 15px rgba(88, 166, 255, 0.8));
+        }
+
+        @keyframes float-profile {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+
+        /* Description */
+        .description {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 24px 20px;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .tab-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--text-secondary);
+            color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            transform: translateY(0);
+        }
+
+        @keyframes float-btn {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section Styling */
+        .tab-content {
+            display: none;
+            padding: 40px 20px;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: tab-enter 0.5s ease forwards;
+        }
+
+        @keyframes tab-enter {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            perspective: 1000px;
+        }
+
+        .project-grid.small-cards {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        /* Pixel art rendering for artwork section */
+        #pixel-art .project-image img,
+        #pixel-art .project-image gif {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: -webkit-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* Project Card */
+        .project-card {
+            background: var(--bg-card);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            animation: float-subtle 6s ease-in-out infinite;
+        }
+
+        .project-card:nth-child(2n) {
+            animation: float-subtle-alt 7s ease-in-out infinite;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            animation-play-state: paused;
+        }
+
+        @keyframes float-card {
+            0%, 100% {
+                transform: translateY(0px) rotateX(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotateX(2deg);
+            }
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .project-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(88, 166, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .project-card:hover .project-image::before {
+            transform: translateX(100%);
+        }
+
+        .project-image::after {
+            /* content: '[IMAGE]'; */
+            position: absolute;
+            color: var(--text-muted);
+            font-size: 0.4em;
+            transition: opacity 0.2s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.02);
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.4em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .project-content p {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--bg-dark);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 0.8em;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tag:hover {
+            background: var(--bg-hover);
+            border-color: var(--primary-color);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 2px 8px rgba(88, 166, 255, 0.3);
+        }
+
+        .trophy-icon {
+            display: inline-block;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        /* About/Hobbies Section */
+        #about {
+            padding: 0;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .hobby-card {
+            background: var(--bg-card);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.2s ease;
+            animation: float-subtle 5s ease-in-out infinite;
+        }
+
+        .hobby-card:nth-child(2n) {
+            animation: float-subtle-alt 6s ease-in-out infinite;
+        }
+
+        .hobby-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+            animation-play-state: paused;
+        }
+
+        .hobby-card h3 {
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .hobby-card p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .hobby-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            padding: 60px 20px 40px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            margin-top: 80px;
+        }
+
+        footer h3 {
+            color: var(--text-color);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.2);
+        }
+
+        .social-icon {
+            font-size: 1.3em;
+            transition: transform 0.2s ease;
+        }
+
+        .social-link:hover .social-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            margin-top: 24px;
+            font-size: 0.9em;
+        }
+
+
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Click Ripple Effect */
+        .ripple {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            animation: ripple-effect 0.6s ease-out;
+        }
+
+        @keyframes ripple-effect {
+            to {
+                transform: scale(20);
+                opacity: 0;
+            }
+        }
+
+        /* Subtle Floating Animation */
+        @keyframes float-subtle {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes float-subtle-alt {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        /* Cute Robot Face Animation */
+        @keyframes robot-turn {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            15% {
+                transform: rotate(-5deg) scale(1.05);
+            }
+            40% {
+                transform: rotate(-20deg) scale(1.08);
+            }
+            55% {
+                transform: rotate(-18deg) scale(1.1);
+            }
+            70% {
+                transform: rotate(-20deg) scale(1.08);
+            }
+            85% {
+                transform: rotate(-5deg) scale(1.03);
+            }
+            100% {
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        @keyframes wave-hand {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            10%, 30%, 50%, 70% {
+                transform: rotate(20deg);
+            }
+            20%, 40%, 60%, 80% {
+                transform: rotate(-15deg);
+            }
+        }
+
+        @keyframes hand-fade {
+            0% {
+                opacity: 0;
+                z-index: 10002;
+            }
+            10% {
+                opacity: 1;
+                z-index: 10002;
+            }
+            90% {
+                opacity: 1;
+                z-index: 10002;
+            }
+            100% {
+                opacity: 0;
+                z-index: 10002;
+            }
+        }
+
+        .waving-hand {
+            position: absolute;
+            top: 80px;
+            left: calc(50% - 110px);
+            font-size: 1.8em;
+            pointer-events: none;
+            opacity: 0;
+            transform-origin: bottom right;
+            z-index: 10002;
+        }
+
+        .waving-hand.show {
+            animation: hand-fade 2.5s ease-in-out forwards, wave-hand 2s ease-in-out 0.2s;
+        }
+
+        @keyframes hello-wave {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            10%, 30%, 50% {
+                transform: rotate(14deg);
+            }
+            20%, 40%, 60% {
+                transform: rotate(-8deg);
+            }
+        }
+
+        @keyframes blurb-appear {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-10deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .hello-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            color: var(--primary-color);
+            font-weight: 700;
+            opacity: 0;
+            z-index: 10000;
+            pointer-events: none;
+            text-shadow: 0 0 20px rgba(88, 166, 255, 0.8),
+                         0 0 40px rgba(88, 166, 255, 0.6);
+        }
+
+        .hello-message.show {
+            animation: blurb-appear 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        .hello-message .wave {
+            display: inline-block;
+            animation: hello-wave 1.5s ease-in-out 0.6s 3;
+        }
+
+        .blurb {
+            position: fixed;
+            font-size: 1.2em;
+            color: var(--text-color);
+            background: var(--bg-card);
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--primary-color);
+            opacity: 0;
+            z-index: 9999;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .blurb.show {
+            animation: blurb-appear 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        .profile-picture.ufo-active {
+            animation: robot-turn 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            z-index: 1000;
+            position: relative;
+        }
+
+        /* Pulse Effect */
+        .pulse {
+            transition: transform 0.2s ease;
+        }
+
+        .pulse:hover {
+            transform: scale(1.05);
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--primary-color);
+            white-space: nowrap;
+            animation: typing 3s steps(40) 1s 1 normal both, blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary-color); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tabs {
+                gap: 6px;
+                padding: 20px 10px;
+            }
+
+            .tab-btn {
+                padding: 6px 12px;
+                font-size: 0.85em;
+            }
+
+            .profile-picture {
+                width: 100px;
+                height: 100px;
+                font-size: 48px;
+            }
+
+            .description {
+                font-size: 1em;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                gap: 10px;
+            }
+
+            .social-link {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+
+            /* Disable floating animation on mobile for performance */
+            .project-card,
+            .hobby-card,
+            .profile-picture {
+                animation: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .tab-btn {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+
+            .project-content {
+                padding: 20px;
+            }
+
+            .hobby-card {
+                padding: 20px;
+            }
+
+            .social-link {
+                font-size: 0.8em;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Loading Bar -->
+    <div class="loading-bar" id="loadingBar"></div>
+    
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+
+    <!-- Interstellar Background -->
+    <div class="stars-bg">
+        <div class="nebula"></div>
+        <div class="stars stars-layer1" id="layer1"></div>
+        <div class="stars stars-layer2" id="layer2"></div>
+        <div class="stars stars-layer3" id="layer3"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="profile-picture pulse" id="profilePic">
+            <img src="images/HGlogo.png" alt="HG Logo">
+        </div>
+        <h1>Harsh Gupta [Quantum_HG]</h1>
+        
+        <div class="description">
+            Student • Hobbyist Game Developer • Pixel Artist • Content Creator • Freelancer • Pygame / Godot / SDL / SFML • Developer
+        </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'opensource')">📦 Open Source</button>
+        <button class="tab-btn" onclick="openTab(event, 'winnings')">🏆 Achievements</button>
+        <button class="tab-btn" onclick="openTab(event, 'games')">🎮 Games</button>
+        <button class="tab-btn" onclick="openTab(event, 'programming')">💻 Programming</button>
+        <button class="tab-btn" onclick="openTab(event, 'simulations')">🔬 Simulations</button>
+        <button class="tab-btn" onclick="openTab(event, 'pixel-art')">🎨 Art</button>
+        <button class="tab-btn" onclick="openTab(event, 'about')">👤 About</button>
+    </div>
+
+    <div class="container">
+        <!-- Open Source Projects Tab Content -->
+        <div id="opensource" class="tab-content active">
+            <h2 class="section-title">📦 Open Source Projects</h2>
+            <div class="project-grid">
+                <div class="project-card" onclick="window.open('https://github.com/Quantum-HG/Battery-Reminder', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/opensource/preview.gif" alt="Battery Reminder Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Battery Reminder</h3>
+                        <p>Battery Reminder is a lightweight Windows desktop application built in C++. It alerts users when their laptop battery reaches a user-defined battery level—helping prevent overcharging and prolong battery health. It features a custom ImGui-based interface, SFML rendering, and native Windows notifications via WinToastLib.</p>
+                        <div class="project-tags">
+                            <span class="tag">[C++]</span>
+                            <span class="tag">[Dear ImGui]</span>
+                            <span class="tag">[Open Source]</span>
+                            <span class="tag">[Github]</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" onclick="window.open('https://github.com/pmp-p/pygame-alien-dimension-wasm', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/games/alndmnsn.gif" alt="Alien Dimension Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Alien Dimension Web build</h3>
+                        <p>Source code for the web build of Alien Dimension game, the 3rd winner in the Pygame Summer Jam 2022, made by @pmp-p</p>
+                        <div class="project-tags">
+                            <span class="tag">[Pybag]</span>
+                            <span class="tag">[Github]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://github.com/Quantum-HG', '_blank')" style="cursor: pointer;">
+                    <div class="project-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(63, 185, 80, 0.2)); min-height: 200px;">
+                        <i class="fab fa-github" style="font-size: 80px; color: var(--primary-color);"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>More on GitHub</h3>
+                        <p>Explore more of my open source contributions and projects on my GitHub profile!</p>
+                        <div class="project-tags">
+                            <span class="tag">[GitHub]</span>
+                            <span class="tag">[View All]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="project-card" onclick="window.open('https://github.com/Quantum-HG', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">🌟</div>
+                    <div class="project-content">
+                        <h3>[ PROJECT_003 ]</h3>
+                        <p>Description of your third project. Add your GIF/images to showcase it!</p>
+                        <div class="project-tags">
+                            <span class="tag">[React]</span>
+                            <span class="tag">[Web]</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- Winnings/Achievements Tab Content -->
+        <div id="winnings" class="tab-content">
+            <h2 class="section-title">🏆 Achievements & Winnings</h2>
+            <div class="project-grid">
+                
+
+                <div class="project-card" onclick="window.open('https://itch.io/jam/pygame-new-years-jam/rate/1338787', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                            <img src="images/games/mutovld.gif" alt="Mutation Overload Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Mutation Overload - 3rd Place</h3>
+                        <p>🥉 <strong>Pygame Community New Year's Jam 2022 </strong>- Solo submission that secured 3rd position along with special <strong>"Feel Good Award"</strong> by the Pygame Community Organizers! All the art, sfx and development was done by me.</p>
+                        <div class="project-tags">
+                            <span class="tag">[3rd Place]</span>
+                            <span class="tag">[Pygame/Python]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://itch.io/jam/pygame-community-summer-jam-2022/rate/1612429', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/games/alndmnsn.gif" alt="Alien Dimension Preview" style="width: 100%; height: 100%; object-fit: contain;">
+
+                    </div>
+                    <div class="project-content">
+                        <h3>Alien Dimension - 3rd Place</h3>
+                        <p>🥉 <strong>Pygame Summer Jam 2022 </strong>- Team of 2 achievement! Alien Dimension was rated 3rd in the Overall category in the event with great feedbacks from the participants. The sound designer was GaxTar from Spain while the art,sfx and development was done by me.</p>
+                        <div class="project-tags">
+                            <span class="tag">[Python/Pygame]</span>
+                            <span class="tag">[3rd place]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="project-card">
+                    <div class="project-image">⭐</div>
+                    <div class="project-content">
+                        <h3>[ Game Jam Veteran ]</h3>
+                        <p>Multiple game jam participations including GMTK 2023, Dalla's Society Jam 2021, and many more!</p>
+                        <div class="project-tags">
+                            <span class="tag">[Game Jams]</span>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- Games Tab Content -->
+        <div id="games" class="tab-content">
+            <h2 class="section-title">🎮 Game Development Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/games/cosmretr.gif" alt="Cosmic Retribution Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Cosmic Retribution</h3>
+                        <p>GMTK Game Jam 2023 submission - Team project completed in under 48 hours!</p>
+                        <div class="project-tags">
+                            <span class="tag">[Game Jam]</span>
+                            <span class="tag">[Team]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://quantum-hg.itch.io/mutation-overload', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/games/mutovld.gif" alt="Mutation Overload Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Mutation Overload</h3>
+                        <p>🏆 3rd Place - Pygame Community New Year's Jam 2022. Crush the people as a mutant!</p>
+                        <div class="project-tags">
+                            <span class="tag">[Pygame]</span>
+                            <span class="tag">[Platformer]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://quantum-hg.itch.io/alien-dimension', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/games/alndmnsn.gif" alt="Alien Dimension Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Alien Dimension</h3>
+                        <p>🏆 3rd Place - Pygame Summer Jam 2022. Team of 2. Boss awaits you!</p>
+                        <div class="project-tags">
+                            <span class="tag">[Pygame]</span>
+                            <span class="tag">[Platformer]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://quantum-hg.itch.io/the-cursed-village-of-hector', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/games/tcvoh.png" alt="The Cursed Village of Hector Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>The Cursed Village of Hector</h3>
+                        <p>Halloween special! Dalla's Society of Play Jam 2021. Two week jam with team of 4.</p>
+                        <div class="project-tags">
+                            <span class="tag">[Pygame]</span>
+                            <span class="tag">[Adventure]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://anonvision.itch.io/cellular-survival', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/games/cs.png" alt="Cellular Survival Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3>Cellular Survival</h3>
+                        <p>Protect the Body, Defend the Cells! A survival game experience.</p>
+                        <div class="project-tags">
+                            <span class="tag">[Pygame]</span>
+                            <span class="tag">[Survival]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://quantum-hg.itch.io/', '_blank')" style="cursor: pointer;">
+                    <div class="project-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(188, 140, 255, 0.2)); min-height: 200px;">
+                        <i class="fas fa-gamepad" style="font-size: 80px; color: var(--primary-color);"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>More Games on itch.io</h3>
+                        <p>Explore more of my game development projects on my itch.io profile!</p>
+                        <div class="project-tags">
+                            <span class="tag">[itch.io]</span>
+                            <span class="tag">[View All]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Programming Projects Tab Content -->
+        <div id="programming" class="tab-content">
+            <h2 class="section-title">💻 Programming Projects</h2>
+            <div class="project-grid">
+                <div class="project-card" onclick="window.open('https://github.com/Quantum-HG/Cartis2D', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/programming/Cartis2D.png" alt="Cartis2D Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3> Cartis2D </h3>
+                        <p>Cartis2D is a desktop level editor for 2D games that makes map creation simple and predictable. It focuses on the essentials—tiles, objects, and layout—without unnecessary complexity. The editor is free to use and distributed as a pre-built application. While the editor is closed source, the Python interface for Pygame integration is fully open source.</p>
+                        <div class="project-tags">
+                            <span class="tag">[Python]</span>
+                            <span class="tag">[Pygame]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://quantum-hg.itch.io/charge-simulator', '_blank')" style="cursor: pointer;">
+                    <div class="project-image">
+                        <img src="images/programming/charge.gif" alt="Charge Simulator Preview" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <h3> Charge Simulator </h3>
+                        <p>An interactive simulation of charges and their interactions made in C++ using SDL completely from scratch.</p>
+                        <div class="project-tags">
+                            <span class="tag">[C++]</span>
+                            <span class="tag">[SDL]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🚀</div>
+                    <div class="project-content">
+                        <h3>More to Come!</h3>
+                        <p>Stay tuned for upcoming projects and exciting new developments!</p>
+                        <div class="project-tags">
+                            <span class="tag">[Coming Soon]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulations Tab Content -->
+        <div id="simulations" class="tab-content">
+            <h2 class="section-title">🔬 Physics & Math Simulations</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/KUzKQSV_CUY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/HoiAJxWXres" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gY6gkpomjH0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/uAiVPdUk-4E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/C5mSgti5OqI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Z4XeEkT9VPg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gvWbPRvpjLE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image" style="padding: 10px; height: 220px;">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/UYP0MiM7ukI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: block;"></iframe>
+                    </div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://youtube.com/@quantum_hg3299', '_blank')" style="cursor: pointer;">
+                    <div class="project-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.2), rgba(255, 0, 0, 0.2)); min-height: 200px;">
+                        <i class="fab fa-youtube" style="font-size: 80px; color: #FF0000;"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3>More on YouTube</h3>
+                        <p>Explore more physics and math simulations on my YouTube channel!</p>
+                        <div class="project-tags">
+                            <span class="tag">[YouTube]</span>
+                            <span class="tag">[View All]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pixel Art Tab Content -->
+        <div id="pixel-art" class="tab-content">
+            <h2 class="section-title">🎨 Digital Artwork</h2>
+            <div class="project-grid small-cards">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/amongus.png" alt="Among Us" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Among Us</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/apple2.png" alt="Apple" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Apple</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/char _des.png" alt="Character Design" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Character Design</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/compbig.png" alt="Computer Big" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Computer Big</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/computer.png" alt="Computer" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Computer</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/earth.png" alt="Earth" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Earth</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/flower_pot.png" alt="Flower Pot" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Flower Pot</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/girl.png" alt="Girl" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Girl</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/grey matter.png" alt="Grey Matter" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Grey Matter</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/gun shot anim.gif" alt="Gun Shot Animation" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Gun Shot Animation</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/HG boi.png" alt="HG Boi" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">HG Boi</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/hut.png" alt="Hut" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Hut</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/man.png" alt="Man" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Man</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/mirror.gif" alt="Mirror" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Mirror</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/mug.png" alt="Mug" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Mug</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/pixel_tree_big.png" alt="Pixel Tree Big" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Pixel Tree Big</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/pizza.png" alt="Pizza" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Pizza</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/pot.png" alt="Pot" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Pot</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/Quantum_Engine.png" alt="Quantum_HG Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Quantum_HG Logo</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/scene1.png" alt="Scene 1" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Scene 1</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/shovel.png" alt="Shovel" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Shovel</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/slope.png" alt="Slope" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Slope</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/Sprite-0001.png" alt="Sprite" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Sprite</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/still_life.png" alt="Still Life" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Still Life</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/sugoma.png" alt="Sugoma" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Sugoma</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/summer jam-13x107-77x57.png" alt="Summer Jam" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Summer Jam</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/sword.png" alt="Sword" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Sword</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/sword_.png" alt="Sword Alt" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Sword Alt</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/sword_man.png" alt="Sword Man" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Sword Man</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/TREE.png" alt="Tree" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Tree</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/trunk3.png" alt="Trunk" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Trunk</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/upgrade.png" alt="Upgrade" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Upgrade</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/venom.png" alt="Venom" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">Venom</p>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="images/art works/xlr8.png" alt="XLR8" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="project-content">
+                        <p style="font-size: 0.85rem; margin: 0;">XLR8</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Me / Hobbies Tab Content -->
+        <div id="about" class="tab-content">
+            <h2 class="section-title">👤 About Me</h2>
+            <div class="about-content">
+                <div class="hobby-card">
+                    <div class="hobby-icon">🏫</div>
+                    <h3>Academics</h3>
+                    <p>Student at National Institute of Technology, Durgapur</p>
+                </div>
+
+                <div class="hobby-card">
+                    <div class="hobby-icon">🧠</div>
+                    <h3>Life-Long Learner</h3>
+                    <p>Always curious about new tech, languages, and concepts.</p>
+                </div>
+
+                <div class="hobby-card">
+                    <div class="hobby-icon">🎸</div>
+                    <h3>Guitar</h3>
+                    <p>Hobbyist Guitar Player (Member of the Music Club, NIT Durgapur)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer with Social Links -->
+    <footer>
+        <h3>🔗 Connect With Me</h3>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/harsh-gupta-quantum-hg/" class="social-link" target="_blank">
+                <i class="fab fa-linkedin"></i>
+                LinkedIn
+            </a>
+            <a href="https://github.com/Quantum-HG" class="social-link" target="_blank">
+                <i class="fab fa-github"></i>
+                GitHub
+            </a>
+            <a href="https://twitter.com/QuantumHg" class="social-link" target="_blank">
+                <i class="fab fa-twitter"></i>
+                Twitter
+            </a>
+            <a href="https://quantum-hg.itch.io" class="social-link" target="_blank">
+                <i class="fas fa-gamepad"></i>
+                Itch.io
+            </a>
+            <a href="https://youtube.com/@quantum_hg3299" class="social-link" target="_blank">
+                <i class="fab fa-youtube"></i>
+                YouTube
+            </a>
+            <a href="https://discord.com/invite/WRe3jrteZn" class="social-link" target="_blank">
+                <i class="fab fa-discord"></i>
+                Discord
+            </a>
+        </div>
+        <div class="footer-text">
+            <p>"The important thing is not to stop questioning. Curiosity has its own reason for existing." - Albert Einstein</p>
+            <p>© 2025 Quantum_HG</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor - No Lag, Direct Follow
+        const cursor = document.getElementById('customCursor');
+
+        document.addEventListener('mousemove', (e) => {
+            // Direct positioning - no lag
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            // Cursor trail with color variation
+            if (Math.random() > 0.7) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = e.clientX + 'px';
+                trail.style.top = e.clientY + 'px';
+                
+                // Random retro colors for trail
+                const colors = ['var(--cyan)', 'var(--magenta)', 'var(--yellow)', 'var(--primary-color)', 'var(--orange)'];
+                trail.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 500);
+            }
+        });
+
+        // Hover effects for cursor
+        document.querySelectorAll('button, a, .project-card, .tab-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+            });
+        });
+
+        // Ripple Effect on Click
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.clientX - 10 + 'px';
+            ripple.style.top = e.clientY - 10 + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+
+        // Loading Bar Progress
+        const loadingBar = document.getElementById('loadingBar');
+        window.addEventListener('load', () => {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                loadingBar.style.width = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingBar.style.opacity = '0';
+                    }, 300);
+                }
+            }, 30);
+        });
+
+        // Scroll Animations
+        function checkVisibility() {
+            const elements = document.querySelectorAll('.project-card, .hobby-card');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight * 0.85;
+                if (isVisible) {
+                    el.classList.add('fade-in', 'visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
+        window.addEventListener('load', checkVisibility);
+
+        // Generate 500 stars across 3 layers
+        function generateStars() {
+            const layer1 = document.getElementById('layer1');
+            const layer2 = document.getElementById('layer2');
+            const layer3 = document.getElementById('layer3');
+            
+            // Layer 1 - 150 foreground stars (bigger, brighter, multi-color)
+            const colors = ['white', 'green', 'cyan', 'magenta', 'yellow', 'orange'];
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                const colorClass = colors[Math.floor(Math.random() * colors.length)];
+                star.className = 'star ' + colorClass;
+                star.style.width = star.style.height = (Math.random() * 2 + 1) + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = `${Math.random() * 3 + 3}s, ${Math.random() * 20 + 15}s`;
+                layer1.appendChild(star);
+            }
+            
+            // Layer 2 - 175 middle stars (multi-color)
+            for (let i = 0; i < 175; i++) {
+                const star = document.createElement('div');
+                const colorClass = colors[Math.floor(Math.random() * colors.length)];
+                star.className = 'star ' + colorClass;
+                star.style.width = star.style.height = (Math.random() * 1.5 + 0.5) + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = `${Math.random() * 3 + 3}s, ${Math.random() * 25 + 20}s`;
+                star.style.opacity = 0.9;
+                layer2.appendChild(star);
+            }
+            
+            // Layer 3 - 175 background stars (smaller, dimmer)
+            for (let i = 0; i < 175; i++) {
+                const star = document.createElement('div');
+                star.className = 'star green';
+                star.style.width = star.style.height = (Math.random() * 1 + 0.3) + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = `${Math.random() * 3 + 3}s, ${Math.random() * 30 + 25}s`;
+                star.style.opacity = 0.7;
+                layer3.appendChild(star);
+            }
+        }
+        
+        // Generate 50 small galaxies
+        function generateGalaxies() {
+            const starsBg = document.querySelector('.stars-bg');
+            
+            for (let i = 0; i < 50; i++) {
+                const galaxy = document.createElement('div');
+                galaxy.className = 'galaxy';
+                const size = Math.random() * 40 + 20; // 20-60px
+                galaxy.style.width = size + 'px';
+                galaxy.style.height = size * 0.6 + 'px'; // Elliptical
+                galaxy.style.left = Math.random() * 100 + '%';
+                galaxy.style.top = Math.random() * 100 + '%';
+                galaxy.style.animationDuration = `${Math.random() * 40 + 40}s, ${Math.random() * 20 + 25}s`;
+                galaxy.style.animationDelay = `0s, ${Math.random() * 5}s`;
+                galaxy.style.opacity = Math.random() * 0.3 + 0.2;
+                starsBg.appendChild(galaxy);
+            }
+        }
+        
+        // Initialize stars and galaxies
+        generateStars();
+        generateGalaxies();
+        
+        function openTab(evt, tabName) {
+            var i, tabcontent, tabbtns;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].className = tabcontent[i].className.replace(" active", "");
+            }
+            
+            tabbtns = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabbtns.length; i++) {
+                tabbtns[i].className = tabbtns[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(tabName).className += " active";
+            evt.currentTarget.className += " active";
+            
+            // Trigger scroll check for new content
+            setTimeout(checkVisibility, 100);
+        }
+
+        // Parallax effect for interstellar background
+        let ticking = false;
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                window.requestAnimationFrame(function() {
+                    const scrolled = window.pageYOffset;
+                    const layer1 = document.getElementById('layer1');
+                    const layer2 = document.getElementById('layer2');
+                    const layer3 = document.getElementById('layer3');
+                    const galaxies = document.querySelectorAll('.galaxy');
+                    
+                    if (layer1) layer1.style.transform = `translateY(${scrolled * 0.5}px)`;
+                    if (layer2) layer2.style.transform = `translateY(${scrolled * 0.3}px)`;
+                    if (layer3) layer3.style.transform = `translateY(${scrolled * 0.1}px)`;
+                    
+                    galaxies.forEach((galaxy, index) => {
+                        const speed = 0.05 + (index % 3) * 0.05;
+                        galaxy.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+                    });
+                    
+                    const nebula = document.querySelector('.nebula');
+                    if (nebula) nebula.style.transform = `translateY(${scrolled * 0.05}px)`;
+                    
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+            const activeIndex = tabs.findIndex(tab => tab.classList.contains('active'));
+            
+            if (e.key === 'ArrowLeft' && activeIndex > 0) {
+                tabs[activeIndex - 1].click();
+            } else if (e.key === 'ArrowRight' && activeIndex < tabs.length - 1) {
+                tabs[activeIndex + 1].click();
+            }
+        });
+
+        // Performance: Add will-change on interaction
+        document.querySelectorAll('.project-card, .hobby-card, .tab-btn').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                el.style.willChange = 'transform';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.willChange = 'auto';
+            });
+        });
+
+        // Cute Robot Logo Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const profilePic = document.getElementById('profilePic');
+            if (!profilePic) {
+                console.error('Profile picture element not found');
+                return;
+            }
+            
+            let isUFOFlying = false;
+
+            profilePic.addEventListener('click', () => {
+                console.log('Logo clicked!'); // Debug log
+                if (isUFOFlying) return; // Prevent multiple clicks during animation
+                
+                isUFOFlying = true;
+                profilePic.classList.add('ufo-active');
+                
+                // Show waving hand after rotation - positioned at top-left of logo
+                setTimeout(() => {
+                    const hand = document.createElement('div');
+                    hand.className = 'waving-hand';
+                    hand.textContent = '👋';
+                    document.querySelector('header').appendChild(hand);
+                    
+                    setTimeout(() => hand.classList.add('show'), 50);
+                    
+                    // Remove hand after animation
+                    setTimeout(() => {
+                        hand.remove();
+                        isUFOFlying = false;
+                    }, 2500);
+                }, 2500);
+                
+                // Remove class after animation completes
+                setTimeout(() => {
+                    profilePic.classList.remove('ufo-active');
+                }, 2500);
+            });
+        });
+    </script>
+</body>
+</html>
